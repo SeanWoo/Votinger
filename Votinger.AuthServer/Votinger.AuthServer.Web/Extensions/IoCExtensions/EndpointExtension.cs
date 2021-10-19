@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Votinger.AuthServer.Web.GrpcServices;
 
 namespace Votinger.AuthServer.Web.Extensions.IoCExtensions
 {
@@ -12,7 +9,7 @@ namespace Votinger.AuthServer.Web.Extensions.IoCExtensions
         {
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGrpcService<GrpcUserService>();
             });
 
             return app;

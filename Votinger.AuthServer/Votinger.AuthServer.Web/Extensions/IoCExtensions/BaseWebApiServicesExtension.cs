@@ -6,7 +6,7 @@ namespace Votinger.AuthServer.Web.Extensions.IoCExtensions
     {
         public static IServiceCollection AddBaseWebApiServices(this IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddGrpc();
 
             return services;
         }

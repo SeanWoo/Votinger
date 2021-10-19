@@ -1,0 +1,37 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Votinger.Protos";
+
+service GrpcUser {
+  // Sends a greeting
+  rpc SignIn (GrpcSignRequest) returns (GrpcSignReply);
+  rpc SignUp (GrpcSignRequest) returns (GrpcSignReply);
+  rpc RefreshToken (GrpcRefreshRequest) returns (GrpcTokensReply);
+}
+
+message GrpcError {
+  string statusCode = 1;
+  string message = 2;
+}
+
+message GrpcTokensReply {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message GrpcSignRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message GrpcSignReply {
+  string status = 1;
+  oneof result {
+	GrpcError error = 2;
+	GrpcTokensReply tokens = 3;
+  };
+}
+
+message GrpcRefreshRequest {
+  string refreshToken = 1;
+}

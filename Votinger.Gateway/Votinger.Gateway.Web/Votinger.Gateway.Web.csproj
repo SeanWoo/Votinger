@@ -11,14 +11,19 @@
     <PackageReference Include="Google.Protobuf" Version="3.18.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.40.0" />
     <PackageReference Include="Grpc.Tools" Version="2.41.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-
-	<Protobuf Include="Protos\test.proto" GrpcServices="Server,Client" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\test.proto" GrpcServices="Client" />
+	    <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
+	</ItemGroup>
 
 </Project>

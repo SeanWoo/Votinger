@@ -21,7 +21,6 @@ namespace Votinger.AuthServer.Web
         {
             services.AddJwtAuth(Configuration)
                 .AddBaseWebApiServices()
-                .AddSwagger()
                 .AddDatabase(Configuration)
                 .AddServices();
         }
@@ -31,8 +30,7 @@ namespace Votinger.AuthServer.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage()
-                    .UseSwaggerMiddlewares();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection()

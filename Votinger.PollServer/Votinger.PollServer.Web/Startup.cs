@@ -29,7 +29,6 @@ namespace Votinger.PollServer.Web
         {
             services.AddJwtAuth(Configuration)
                 .AddBaseWebApiServices()
-                .AddSwagger()
                 .AddDatabase(Configuration)
                 .AddServices();
         }
@@ -39,8 +38,7 @@ namespace Votinger.PollServer.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage()
-                    .UseSwaggerMiddlewares();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection()

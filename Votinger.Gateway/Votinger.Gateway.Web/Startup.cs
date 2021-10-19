@@ -30,6 +30,7 @@ namespace Votinger.Gateway.Web
             services.AddJwtAuth(Configuration)
                 .AddBaseWebApiServices()
                 .AddSwagger()
+                .AddGrpcFactories()
                 .AddServices();
         }
 

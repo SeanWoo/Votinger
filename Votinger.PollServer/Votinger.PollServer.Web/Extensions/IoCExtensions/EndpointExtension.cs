@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Votinger.PollServer.Web.GrpcServices;
 
 namespace Votinger.PollServer.Web.Extensions.IoCExtensions
 {
@@ -12,7 +13,7 @@ namespace Votinger.PollServer.Web.Extensions.IoCExtensions
         {
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGrpcService<TestService>();
             });
 
             return app;
