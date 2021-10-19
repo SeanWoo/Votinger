@@ -19,15 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Votinger.PollServer", "Votinger.PollServer", "{B96E9A5D-2A95-4214-A1F7-81C736B19A75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.PollServer.Core", "Votinger.PollServer\Votinger.PollServer.Core\Votinger.PollServer.Core.csproj", "{4013A297-F281-4DA5-A12E-04D20492C5D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.PollServer.Core", "Votinger.PollServer\Votinger.PollServer.Core\Votinger.PollServer.Core.csproj", "{4013A297-F281-4DA5-A12E-04D20492C5D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.PollServer.Infrastructure", "Votinger.PollServer\Votinger.PollServer.Infrastructure\Votinger.PollServer.Infrastructure.csproj", "{B9527078-27A4-4BCF-AE9C-E93DB011FE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.PollServer.Infrastructure", "Votinger.PollServer\Votinger.PollServer.Infrastructure\Votinger.PollServer.Infrastructure.csproj", "{B9527078-27A4-4BCF-AE9C-E93DB011FE53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.PollServer.Services", "Votinger.PollServer\Votinger.PollServer.Services\Votinger.PollServer.Services.csproj", "{F52D4A35-2BEA-4DBE-B461-81F550CAD79B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.PollServer.Services", "Votinger.PollServer\Votinger.PollServer.Services\Votinger.PollServer.Services.csproj", "{F52D4A35-2BEA-4DBE-B461-81F550CAD79B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.PollServer.Web", "Votinger.PollServer\Votinger.PollServer.Web\Votinger.PollServer.Web.csproj", "{176C5629-50D5-4AF5-9B90-033301221317}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.PollServer.Web", "Votinger.PollServer\Votinger.PollServer.Web\Votinger.PollServer.Web.csproj", "{176C5629-50D5-4AF5-9B90-033301221317}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.PollServer.Tests", "Votinger.PollServer\Votinger.PollServer.Tests\Votinger.PollServer.Tests.csproj", "{A82B7B04-3A6E-41D6-8D88-8E54D48961E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.PollServer.Tests", "Votinger.PollServer\Votinger.PollServer.Tests\Votinger.PollServer.Tests.csproj", "{A82B7B04-3A6E-41D6-8D88-8E54D48961E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Votinger.Gateway", "Votinger.Gateway", "{0321F7F1-5BBA-4B45-96F4-84958E08A702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.Gateway.Web", "Votinger.Gateway\Votinger.Gateway.Web\Votinger.Gateway.Web.csproj", "{5CC2A098-A2A5-4964-962D-302B0D5C75D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,10 @@ Global
 		{A82B7B04-3A6E-41D6-8D88-8E54D48961E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A82B7B04-3A6E-41D6-8D88-8E54D48961E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A82B7B04-3A6E-41D6-8D88-8E54D48961E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +98,7 @@ Global
 		{F52D4A35-2BEA-4DBE-B461-81F550CAD79B} = {B96E9A5D-2A95-4214-A1F7-81C736B19A75}
 		{176C5629-50D5-4AF5-9B90-033301221317} = {B96E9A5D-2A95-4214-A1F7-81C736B19A75}
 		{A82B7B04-3A6E-41D6-8D88-8E54D48961E0} = {B96E9A5D-2A95-4214-A1F7-81C736B19A75}
+		{5CC2A098-A2A5-4964-962D-302B0D5C75D8} = {0321F7F1-5BBA-4B45-96F4-84958E08A702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59426E29-D06A-4568-98AB-CE68A1C95833}
