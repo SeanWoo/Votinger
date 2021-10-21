@@ -5,6 +5,7 @@
     <UserSecretsId>50e17e0d-8f0b-401d-b6a0-c0f3b7399343</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,9 +35,5 @@
 	<ItemGroup>
 		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
 	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="cp $(SolutionDir)/apiErrorCodes.json $(TargetDir)" />
-	</Target>
 
 </Project>

@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Votinger.PollServer.Core\Votinger.PollServer.Core.csproj" />
+    <ProjectReference Include="..\Votinger.PollServer.Infrastructure\Votinger.PollServer.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

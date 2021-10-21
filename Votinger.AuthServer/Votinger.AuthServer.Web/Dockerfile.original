@@ -8,9 +8,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Votinger.AuthServer/Votinger.AuthServer.Web/Votinger.AuthServer.Web.csproj", "Votinger.AuthServer/Votinger.AuthServer.Web/"]
-COPY ["Votinger.AuthServer/Votinger.AuthServer.Infrastructure/Votinger.AuthServer.Infrastructure.csproj", "Votinger.AuthServer/Votinger.AuthServer.Infrastructure/"]
-COPY ["Votinger.AuthServer/Votinger.AuthServer.Core/Votinger.AuthServer.Core.csproj", "Votinger.AuthServer/Votinger.AuthServer.Core/"]
-COPY ["Votinger.AuthServer/Votinger.AuthServer.Services/Votinger.AuthServer.Services.csproj", "Votinger.AuthServer/Votinger.AuthServer.Services/"]
 RUN dotnet restore "Votinger.AuthServer/Votinger.AuthServer.Web/Votinger.AuthServer.Web.csproj"
 COPY . .
 WORKDIR "/src/Votinger.AuthServer/Votinger.AuthServer.Web"

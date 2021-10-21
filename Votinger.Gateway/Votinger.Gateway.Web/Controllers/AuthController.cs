@@ -8,9 +8,7 @@ using Votinger.Protos;
 
 namespace Votinger.Gateway.Web.Controllers
 {
-    [ApiController]
-    [Route("[controller]/[action]")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseApiController
     {
         private readonly GrpcUser.GrpcUserClient _userClient;
 
@@ -20,7 +18,7 @@ namespace Votinger.Gateway.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<SignResponse> SignIn(SignInModel model)
+        public async Task<IActionResult> SignIn(SignInModel model)
         {
             var result = await _userClient.SignInAsync(new GrpcSignRequest()
             {
@@ -28,21 +26,15 @@ namespace Votinger.Gateway.Web.Controllers
                 Password = model.Password
             });
 
-            switch (result.ResultCase)
+            return result.ResultCase switch
             {
-                case GrpcSignReply.ResultOneofCase.Error:
-                    break;
-                case GrpcSignReply.ResultOneofCase.Tokens:
-                    return new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken);
-                default:
-                    break;
-            }
-
-            return new SignResponse(result.Status, result.AccessToken, result.RefreshToken);
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                _ => BadRequest(result.Error.StatusCode, result.Error.Message)
+            };
         }
 
         [HttpPost]
-        public async Task<SignResponse> SignUp(SignUpModel model)
+        public async Task<IActionResult> SignUp(SignUpModel model)
         {
             var result = await _userClient.SignUpAsync(new GrpcSignRequest()
             {
@@ -50,7 +42,26 @@ namespace Votinger.Gateway.Web.Controllers
                 Password = model.Password
             });
 
-            return new SignResponse(result.Status, result.AccessToken, result.RefreshToken);
+            return result.ResultCase switch
+            {
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                _ => BadRequest(result.Error.StatusCode, result.Error.Message)
+            };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RefreshTokens(string refreshToken)
+        {
+            var result = await _userClient.RefreshTokenAsync(new GrpcRefreshRequest()
+            {
+                RefreshToken = refreshToken
+            });
+
+            return result.ResultCase switch
+            {
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                _ => BadRequest(result.Error.StatusCode, result.Error.Message)
+            };
         }
     }
 }

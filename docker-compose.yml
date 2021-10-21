@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  votinger.authserver.db:
+    image: mysql:8
+    container_name: Votinger.AuthServer.Db
+    restart: always
+    environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  votinger.pollserver.db:
+    image: mysql:8
+    container_name: Votinger.PollServer.Db
+    restart: always
+    environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  votinger.authserver.web:
+    image: ${DOCKER_REGISTRY-}votingerauthserverweb
+    container_name: Votinger.AuthServer.Web
+    build:
+      context: .
+      dockerfile: Votinger.AuthServer/Votinger.AuthServer.Web/Dockerfile
+    links:
+        - votinger.authserver.db:authdb
+
+  votinger.gateway.web:
+    image: ${DOCKER_REGISTRY-}votingergatewayweb
+    container_name: Votinger.Gateway.Web
+    build:
+      context: .
+      dockerfile: Votinger.Gateway/Votinger.Gateway.Web/Dockerfile
+    ports:
+        - 5000:5000
+    links:
+        - votinger.authserver.web:authserver
+        - votinger.pollserver.web:pollserver
+
+  votinger.pollserver.web:
+    image: ${DOCKER_REGISTRY-}votingerpollserverweb
+    container_name: Votinger.PollServer.Web
+    build:
+      context: .
+      dockerfile: Votinger.PollServer/Votinger.PollServer.Web/Dockerfile
+    links:
+        - votinger.pollserver.db:polldb

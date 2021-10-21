@@ -6,11 +6,11 @@ service GrpcUser {
   // Sends a greeting
   rpc SignIn (GrpcSignRequest) returns (GrpcSignReply);
   rpc SignUp (GrpcSignRequest) returns (GrpcSignReply);
-  rpc RefreshToken (GrpcRefreshRequest) returns (GrpcTokensReply);
+  rpc RefreshToken (GrpcRefreshRequest) returns (GrpcSignReply);
 }
 
 message GrpcError {
-  string statusCode = 1;
+  int32 statusCode = 1;
   string message = 2;
 }
 

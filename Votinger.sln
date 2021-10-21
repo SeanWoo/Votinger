@@ -16,9 +16,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.AuthServer.Infrastructure", "Votinger.AuthServer\Votinger.AuthServer.Infrastructure\Votinger.AuthServer.Infrastructure.csproj", "{73EABE7A-8C54-458D-93DE-695BAC8263D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A71E720-B0E2-4719-81AB-C303227D9708}"
-	ProjectSection(SolutionItems) = preProject
-		apiErrorCodes.json = apiErrorCodes.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Votinger.PollServer", "Votinger.PollServer", "{B96E9A5D-2A95-4214-A1F7-81C736B19A75}"
 EndProject
@@ -35,6 +32,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Votinger.Gateway", "Votinger.Gateway", "{0321F7F1-5BBA-4B45-96F4-84958E08A702}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.Gateway.Web", "Votinger.Gateway\Votinger.Gateway.Web\Votinger.Gateway.Web.csproj", "{5CC2A098-A2A5-4964-962D-302B0D5C75D8}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5F30540D-DDE6-48A1-A159-7D256B01F390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +85,10 @@ Global
 		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CC2A098-A2A5-4964-962D-302B0D5C75D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F30540D-DDE6-48A1-A159-7D256B01F390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F30540D-DDE6-48A1-A159-7D256B01F390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F30540D-DDE6-48A1-A159-7D256B01F390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F30540D-DDE6-48A1-A159-7D256B01F390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

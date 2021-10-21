@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace Votinger.Gateway.Web.Extensions.IoCExtensions
 {

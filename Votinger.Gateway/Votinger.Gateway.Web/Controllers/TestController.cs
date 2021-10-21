@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Votinger.Gateway.Web.Services;
 using Votinger.Protos;
 
 namespace Votinger.Gateway.Web.Controllers
