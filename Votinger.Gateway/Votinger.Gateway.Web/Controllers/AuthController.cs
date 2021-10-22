@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Votinger.Gateway.Models;
 using Votinger.Gateway.Web.Models.Auth;
 using Votinger.Protos;
 
@@ -28,7 +29,7 @@ namespace Votinger.Gateway.Web.Controllers
 
             return result.ResultCase switch
             {
-                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Tokens.AccessToken, result.Tokens.RefreshToken)),
                 _ => BadRequest(result.Error.StatusCode, result.Error.Message)
             };
         }
@@ -44,7 +45,7 @@ namespace Votinger.Gateway.Web.Controllers
 
             return result.ResultCase switch
             {
-                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Tokens.AccessToken, result.Tokens.RefreshToken)),
                 _ => BadRequest(result.Error.StatusCode, result.Error.Message)
             };
         }
@@ -59,7 +60,7 @@ namespace Votinger.Gateway.Web.Controllers
 
             return result.ResultCase switch
             {
-                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Status, result.Tokens.AccessToken, result.Tokens.RefreshToken)),
+                GrpcSignReply.ResultOneofCase.Tokens => Ok(new SignResponse(result.Tokens.AccessToken, result.Tokens.RefreshToken)),
                 _ => BadRequest(result.Error.StatusCode, result.Error.Message)
             };
         }

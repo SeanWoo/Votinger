@@ -27,8 +27,6 @@ namespace Votinger.AuthServer.Web.GrpcServices
 
         public override async Task<GrpcSignReply> SignIn(GrpcSignRequest request, ServerCallContext context)
         {
-            _logger.LogDebug("An attempt to log into an account with a login: ", request.Login);
-
             var signInModel = new SignInModel(request.Login, request.Password);
 
             var result = await _service.SignInAsync(signInModel);
@@ -37,7 +35,6 @@ namespace Votinger.AuthServer.Web.GrpcServices
             {
                 return new GrpcSignReply()
                 {
-                    Status = ApiStatusTypes.Error,
                     Error = new GrpcError()
                     {
                         StatusCode = (int)ApiErrorStatusEnum.ERROR_NOT_VALID_CREDENTIALS,
@@ -48,7 +45,6 @@ namespace Votinger.AuthServer.Web.GrpcServices
 
             return new GrpcSignReply()
             {
-                Status = ApiStatusTypes.Success,
                 Tokens = new GrpcTokensReply()
                 {
                     AccessToken = result.TokensModel.AccessToken,
@@ -59,26 +55,24 @@ namespace Votinger.AuthServer.Web.GrpcServices
 
         public override async Task<GrpcSignReply> SignUp(GrpcSignRequest request, ServerCallContext context)
         {
-            var signInModel = new SignInModel(request.Login, request.Password);
+            var signUpModel = new SignUpModel(request.Login, request.Password);
 
-            var result = await _service.SignInAsync(signInModel);
+            var result = await _service.SignUpAsync(signUpModel);
 
             if (result is null)
             {
                 return new GrpcSignReply()
                 {
-                    Status = ApiStatusTypes.Error,
                     Error = new GrpcError()
                     {
-                        StatusCode = (int)ApiErrorStatusEnum.ERROR_NOT_VALID_CREDENTIALS,
-                        Message = "Not valid credentials"
+                        StatusCode = (int)ApiErrorStatusEnum.ERROR_LOGIN_IS_BUSY,
+                        Message = "Login already exists"
                     }
                 };
             }
 
             return new GrpcSignReply()
             {
-                Status = ApiStatusTypes.Success,
                 Tokens = new GrpcTokensReply()
                 {
                     AccessToken = result.TokensModel.AccessToken,
@@ -95,7 +89,6 @@ namespace Votinger.AuthServer.Web.GrpcServices
             {
                 return new GrpcSignReply()
                 {
-                    Status = ApiStatusTypes.Error,
                     Error = new GrpcError()
                     {
                         StatusCode = (int)ApiErrorStatusEnum.ERROR_NOT_VALID_REFRESH_TOKEN,
@@ -106,7 +99,6 @@ namespace Votinger.AuthServer.Web.GrpcServices
 
             return new GrpcSignReply()
             {
-                Status = ApiStatusTypes.Success,
                 Tokens = new GrpcTokensReply()
                 {
                     AccessToken = result.AccessToken,

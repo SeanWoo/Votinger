@@ -17,6 +17,29 @@ namespace Votinger.PollServer.Tests.Services
     {
         private IPollService _service;
         private IPollRepository _pollRepository;
+        private Poll _testPoll = new Poll()
+        {
+            Id = 1,
+            Title = "test",
+            AnswerOptions = new List<PollAnswerOption>()
+            {
+                new PollAnswerOption()
+                {
+                    Id = 1,
+                    Text = "testAnswer1"
+                },
+                new PollAnswerOption()
+                {
+                    Id = 2,
+                    Text = "testAnswer2"
+                },
+                new PollAnswerOption()
+                {
+                    Id = 3,
+                    Text = "testAnswer3"
+                },
+            }
+        };
         public PollService_Tests()
         {
             _pollRepository = new MockPollRepository();
@@ -71,6 +94,49 @@ namespace Votinger.PollServer.Tests.Services
 
             var repositoryResult = await _pollRepository.GetByIdAsync(1);
             Assert.Null(repositoryResult);
+        }
+        [Fact]
+        public async Task VoteInPoll_OneVariantVote()
+        {
+            await _pollRepository.InsertAsync(_testPoll);
+
+            var input = new AnswerPollModel()
+            {
+                PollId = _testPoll.Id,
+                AnswerOptionIds = new int[] { 2 }
+            };
+            await _service.VoteInPollAsync(input);
+
+            Assert.Equal(1, _testPoll.AnswerOptions[1].NumberOfReplies);
+        }
+        [Fact]
+        public async Task VoteInPoll_TwoVariantVote()
+        {
+            await _pollRepository.InsertAsync(_testPoll);
+
+            var input = new AnswerPollModel()
+            {
+                PollId = _testPoll.Id,
+                AnswerOptionIds = new int[] { 2, 3 }
+            };
+            await _service.VoteInPollAsync(input);
+
+            Assert.Equal(1, _testPoll.AnswerOptions[1].NumberOfReplies);
+            Assert.Equal(1, _testPoll.AnswerOptions[2].NumberOfReplies);
+        }
+        [Fact]
+        public async Task VoteInPoll_TwoVariantVote_OneVote()
+        {
+            await _pollRepository.InsertAsync(_testPoll);
+
+            var input = new AnswerPollModel()
+            {
+                PollId = _testPoll.Id,
+                AnswerOptionIds = new int[] { 2, 2 }
+            };
+            await _service.VoteInPollAsync(input);
+
+            Assert.Equal(1, _testPoll.AnswerOptions[1].NumberOfReplies);
         }
     }
 }

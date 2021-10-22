@@ -19,5 +19,4 @@ RUN dotnet publish "Votinger.Gateway.Web.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-FROM mcr.microsoft.com/dotnet/sdk:5.0
 ENTRYPOINT ["dotnet", "Votinger.Gateway.Web.dll"]

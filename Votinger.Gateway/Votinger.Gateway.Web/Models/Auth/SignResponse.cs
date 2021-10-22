@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace Votinger.Gateway.Web.Models.Auth
 {
-    public record SignResponse(string Status, string AccessToken, string RefreshToken);
+    public record SignResponse(string AccessToken, string RefreshToken);
 }

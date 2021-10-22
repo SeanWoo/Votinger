@@ -25,10 +25,9 @@ message GrpcSignRequest {
 }
 
 message GrpcSignReply {
-  string status = 1;
   oneof result {
-	GrpcError error = 2;
-	GrpcTokensReply tokens = 3;
+	GrpcError error = 1;
+	GrpcTokensReply tokens = 2;
   };
 }
 

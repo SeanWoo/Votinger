@@ -1,13 +1,12 @@
-﻿
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>5f30540d-dde6-48a1-a159-7d256b01f390</ProjectGuid>
+    <ProjectGuid>dad4a9fe-1ba8-48c7-acd0-50587e87bdf4</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>votinger.gateway.web</DockerServiceName>
-    <UserSecretsId>128fac67-006c-4fc5-ab0c-8ddf7a1a9c82</UserSecretsId>
+    <DockerServiceName>webapplication1</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
