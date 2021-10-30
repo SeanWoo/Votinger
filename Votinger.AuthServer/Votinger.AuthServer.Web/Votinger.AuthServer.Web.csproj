@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\Common\error.proto" />
     <None Remove="Protos\user.proto" />
   </ItemGroup>
 
@@ -33,6 +34,8 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="Protos\Common\error.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\Common\empty.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
 	</ItemGroup>
 

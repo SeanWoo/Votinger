@@ -1,0 +1,91 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Votinger.Protos";
+
+import "Protos/Common/empty.proto";
+import "Protos/Common/error.proto";
+
+service GrpcPollService {
+  rpc GetFew (GrpcGetFewRequest) returns (GrpcRepeatedPollResponse);
+  rpc GetPollById (GrpcGetPollByIdRequest) returns (GrpcPollResponse);
+  rpc CreatePoll (GrpcCreatePollRequest) returns (GrpcPollResponse);
+  rpc RemovePoll (GrpcRemovePollRequest) returns (GrpcEmpty);
+  rpc VoteInPoll (GrpcVoteInPollRequest) returns (GrpcEmpty);
+  rpc CancelVoteInPoll (GrpcCancelVoteInPollRequest) returns (GrpcEmpty);
+}
+
+//Poll models
+message GrpcPoll {
+  int32 id = 1;
+  int32 user_id = 2;
+  string title = 3;
+
+  message GrpcPollAnswerOption {
+    int32 id = 1;
+    string text = 2;
+    int32 number_of_replies = 3;
+    int32 poll_id = 4;
+
+      message GrpcPollRepliedUser {
+        int32 id = 1;
+        int32 poll_answer_option_id = 2;
+        int32 userId = 3;
+      }
+
+      repeated GrpcPollRepliedUser replied_users = 5;
+  }
+
+  repeated GrpcPollAnswerOption answer_options = 4;
+}
+
+//Requests
+message GrpcGetPollByIdRequest {
+  int32 poll_id = 1;
+  bool include_answers = 2;
+  bool include_replied_users = 3;
+}
+
+message GrpcCreatePollRequest {
+  string title = 1;
+  repeated string answer_options = 2;
+}
+
+message GrpcRemovePollRequest {
+  int32 poll_id = 1;
+}
+
+message GrpcVoteInPollRequest {
+  int32 poll_id = 1;
+  repeated int32 answer_option_ids = 2;
+}
+
+message GrpcCancelVoteInPollRequest {
+  int32 poll_id = 1;
+}
+
+message GrpcGetFewRequest {
+    int32 from = 1;
+    int32 to = 2;
+    bool include_answers = 3;
+}
+
+//Other
+message GrpcRepeatedPoll {
+    repeated GrpcPoll polls = 1;
+}
+
+//Responses
+message GrpcPollResponse {
+  oneof result {
+    GrpcError error = 1;
+    GrpcPoll poll = 2;
+  };
+}
+
+message GrpcRepeatedPollResponse {
+  oneof result {
+    GrpcError error = 1;
+    GrpcRepeatedPoll polls = 2;
+  };
+}
+

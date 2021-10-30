@@ -23,8 +23,11 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="Protos\Common\error.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\Common\empty.proto" GrpcServices="Client" />
 		<Protobuf Include="Protos\test.proto" GrpcServices="Client" />
 	    <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
+	    <Protobuf Include="Protos\poll.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

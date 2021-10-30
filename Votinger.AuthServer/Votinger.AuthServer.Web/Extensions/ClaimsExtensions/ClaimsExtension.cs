@@ -13,7 +13,7 @@ namespace Votinger.AuthServer.Web.Extensions.ClaimsExtensions
         {
             var jwtClaimModel = new JwtClaimsModel()
             {
-                UserId = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "id").Value),
+                UserId = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "id")?.Value),
             };
             return jwtClaimModel;
         }

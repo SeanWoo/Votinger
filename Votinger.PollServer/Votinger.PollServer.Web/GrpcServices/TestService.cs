@@ -1,8 +1,10 @@
 ﻿using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Votinger.PollServer.Infrastructure.Repository;
 using Votinger.Protos;
 
 namespace Votinger.PollServer.Web.GrpcServices

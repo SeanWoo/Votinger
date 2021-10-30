@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Votinger.AuthServer.Core.Entities;
 using Votinger.AuthServer.Infrastructure.Data;
+using Votinger.AuthServer.Infrastructure.Repository;
 using Votinger.AuthServer.Infrastructure.Repository.Entities;
 using Votinger.AuthServer.Infrastructure.Repository.Entities.Interfaces;
 using Votinger.AuthServer.Services.Jwt;
@@ -24,8 +25,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         //jwt.io ID: 1
         const string refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYXNkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzIzMzI0MzQsImlkIjoiMSIsImV4cCI6MTkzMjM1NDAzNCwiaXNzIjoiVGVzdElzc3VlciIsImF1ZCI6IlRlc3RBdWRpZW5jZSJ9.Ssq4AvXTtBXpQQ1UaNRWWWIhCst1LgUO0jA0EyWnAVI";
 
-        private IUserRepository _userRepository;
-        private IRefreshTokenRepository _refreshTokenRepository;
+        private IUnitOfWork _unitOfWork;
         private IJwtService _jwtService;
 
         public UserService_SignTests()
@@ -49,8 +49,11 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
             var mockJwtService = new Mock<IJwtService>();
             mockJwtService.Setup(x => x.GenerateTokens(It.IsAny<User>())).Returns(new TokensModel("newTestAccessToken", "newTestRefreshToken"));
 
-            _userRepository = new UserRepository(context);
-            _refreshTokenRepository = new RefreshTokenRepository(context);
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.Users).Returns(new UserRepository(context));
+            mockUnitOfWork.Setup(x => x.RefreshTokens).Returns(new RefreshTokenRepository(context));
+
+            _unitOfWork = mockUnitOfWork.Object;
             _jwtService = mockJwtService.Object;
         }
 
@@ -59,7 +62,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignUpModel("newLogin", "newPaswword");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignUpAsync(model);
 
@@ -74,7 +77,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignUpModel("test", "testpass");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignUpAsync(model);
 
@@ -83,7 +86,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         [Fact]
         public async Task SignUpAsync_ArgumentNullException()
         {
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => 
                 await userService.SignUpAsync(null));
@@ -93,7 +96,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignInModel("test2", "testPass2");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignInAsync(model);
 
@@ -108,7 +111,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignInModel("test3", "testPass3");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignInAsync(model);
 
@@ -123,7 +126,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignInModel("notValidLogin", "notValidPassword");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignInAsync(model);
 
@@ -134,7 +137,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         {
             var model = new SignInModel("test2", "notValidPassword");
 
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var response = await userService.SignInAsync(model);
 
@@ -143,7 +146,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         [Fact]
         public async Task SignInAsync_ArgumentNullException()
         {
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
                 await userService.SignInAsync(null));

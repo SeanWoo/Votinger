@@ -11,17 +11,17 @@ namespace Votinger.Gateway.Web.Controllers
 {
     public class AuthController : BaseApiController
     {
-        private readonly GrpcUser.GrpcUserClient _userClient;
+        private readonly GrpcUserService.GrpcUserServiceClient _client;
 
-        public AuthController(GrpcUser.GrpcUserClient userClient)
+        public AuthController(GrpcUserService.GrpcUserServiceClient userClient)
         {
-            _userClient = userClient;
+            _client = userClient;
         }
 
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInModel model)
         {
-            var result = await _userClient.SignInAsync(new GrpcSignRequest()
+            var result = await _client.SignInAsync(new GrpcSignRequest()
             {
                 Login = model.Login,
                 Password = model.Password
@@ -37,7 +37,7 @@ namespace Votinger.Gateway.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpModel model)
         {
-            var result = await _userClient.SignUpAsync(new GrpcSignRequest()
+            var result = await _client.SignUpAsync(new GrpcSignRequest()
             {
                 Login = model.Login,
                 Password = model.Password
@@ -53,7 +53,7 @@ namespace Votinger.Gateway.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> RefreshTokens(string refreshToken)
         {
-            var result = await _userClient.RefreshTokenAsync(new GrpcRefreshRequest()
+            var result = await _client.RefreshTokenAsync(new GrpcRefreshRequest()
             {
                 RefreshToken = refreshToken
             });

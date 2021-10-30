@@ -9,7 +9,7 @@ namespace Votinger.AuthServer.Web.Extensions.IoCExtensions
         {
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GrpcUserService>();
+                endpoints.MapGrpcService<GrpcUserServiceImplementation>();
             });
 
             return app;

@@ -12,5 +12,6 @@ namespace Votinger.PollServer.Core.Entities
         public int NumberOfReplies { get; set; }
         public int PollId { get; set; }
         public Poll Poll { get; set; }
+        public List<PollRepliedUser> RepliedUsers { get; set; }
     }
 }

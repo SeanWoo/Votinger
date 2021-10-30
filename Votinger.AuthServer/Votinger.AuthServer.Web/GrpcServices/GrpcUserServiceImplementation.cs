@@ -13,13 +13,13 @@ using Votinger.Protos;
 
 namespace Votinger.AuthServer.Web.GrpcServices
 {
-    public class GrpcUserService : GrpcUser.GrpcUserBase
+    public class GrpcUserServiceImplementation : GrpcUserService.GrpcUserServiceBase
     {
         private readonly IUserService _service;
-        private readonly ILogger<GrpcUserService> _logger;
-        public GrpcUserService(
+        private readonly ILogger<GrpcUserServiceImplementation> _logger;
+        public GrpcUserServiceImplementation(
             IUserService service,
-            ILogger<GrpcUserService> logger)
+            ILogger<GrpcUserServiceImplementation> logger)
         {
             _service = service;
             _logger = logger;

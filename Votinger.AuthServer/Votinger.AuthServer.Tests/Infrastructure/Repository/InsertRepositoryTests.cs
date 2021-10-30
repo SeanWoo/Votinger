@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Votinger.AuthServer.Core.Entities;
 using Votinger.AuthServer.Infrastructure.Data;
 using Votinger.AuthServer.Infrastructure.Repository;
-using Votinger.AuthServer.Infrastructure.Repository.Entities;
 using Xunit;
 
 namespace Votinger.AuthServer.Tests.Infrastructure.Repository

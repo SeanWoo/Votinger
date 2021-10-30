@@ -1,0 +1,19 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  votingergatewayweb:
+    image: votingergatewayweb
+    build:
+      context: .
+      dockerfile: Votinger.Gateway/Votinger.Gateway.Web/Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - C:\Users\kokar\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\kokar\.nuget\packages\:/root/.nuget/packages:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

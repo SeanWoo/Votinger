@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Votinger.AuthServer.Core.Entities;
+using Votinger.AuthServer.Infrastructure.Repository;
 using Votinger.AuthServer.Infrastructure.Repository.Entities;
 using Votinger.AuthServer.Infrastructure.Repository.Entities.Interfaces;
 using Votinger.AuthServer.Services.Jwt;
@@ -16,17 +17,14 @@ namespace Votinger.AuthServer.Services.Users
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtService _jwtService;
 
         public UserService(
-            IUserRepository userRepository,
-            IRefreshTokenRepository refreshTokenRepository,
+            IUnitOfWork unitOfWork,
             IJwtService jwtService)
         {
-            _userRepository = userRepository;
-            _refreshTokenRepository = refreshTokenRepository;
+            _unitOfWork = unitOfWork;
             _jwtService = jwtService;
         }
 
@@ -43,21 +41,21 @@ namespace Votinger.AuthServer.Services.Users
                 return null;
 
             var userId = Convert.ToInt32(claim.Value);
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _unitOfWork.Users.GetWithToken(userId);
 
             if (user is null || user.RefreshToken is null)
                 return null;
 
-            var refreshTokenEntity = await _refreshTokenRepository.GetByIdAsync(user.RefreshToken.Id);
-
-            if (refreshTokenEntity.Token != refreshToken)
+            if (user.RefreshToken.Token != refreshToken)
                 return null;
 
             var tokens = _jwtService.GenerateTokens(user);
 
-            refreshTokenEntity.Token = tokens.RefreshToken;
+            user.RefreshToken.Token = tokens.RefreshToken;
 
-            await _refreshTokenRepository.UpdateAsync(refreshTokenEntity);
+            await _unitOfWork.RefreshTokens.UpdateAsync(user.RefreshToken);
+
+            await _unitOfWork.SaveChangesAsync();
 
             return tokens;
         }
@@ -67,7 +65,7 @@ namespace Votinger.AuthServer.Services.Users
             if (model is null)
                 throw new ArgumentNullException();
 
-            var user = await _userRepository.GetByLoginAsync(model.Login);
+            var user = await _unitOfWork.Users.GetByLoginAsync(model.Login);
 
             if (user is null || user.Password != model.Password)
                 return null;
@@ -82,13 +80,13 @@ namespace Votinger.AuthServer.Services.Users
                 };
                 user.RefreshToken = refreshToken;
 
-                await _refreshTokenRepository.InsertAsync(refreshToken);
+                await _unitOfWork.RefreshTokens.InsertAsync(refreshToken);
             }
             else 
             {
-                var refreshToken = await _refreshTokenRepository.GetByIdAsync(user.RefreshTokenId);
+                var refreshToken = await _unitOfWork.RefreshTokens.GetByIdAsync(user.RefreshTokenId);
                 refreshToken.Token = tokens.RefreshToken;
-                await _refreshTokenRepository.UpdateAsync(refreshToken);
+                await _unitOfWork.RefreshTokens.UpdateAsync(refreshToken);
             }
 
             return new(user, tokens);
@@ -99,7 +97,7 @@ namespace Votinger.AuthServer.Services.Users
             if (model is null)
                 throw new ArgumentNullException();
 
-            var userFromDb = await _userRepository.GetByLoginAsync(model.Login);
+            var userFromDb = await _unitOfWork.Users.GetByLoginAsync(model.Login);
 
             if (userFromDb is not null)
                 return null;
@@ -109,15 +107,19 @@ namespace Votinger.AuthServer.Services.Users
                 Login = model.Login,
                 Password = model.Password
             };
-            var tokens = _jwtService.GenerateTokens(user);
+            await _unitOfWork.Users.InsertAsync(user);
+            await _unitOfWork.SaveChangesAsync();
 
+
+            var tokens = _jwtService.GenerateTokens(user);
             var refreshToken = new RefreshToken()
             {
                 Token = tokens.RefreshToken
             };
             user.RefreshToken = refreshToken;
 
-            await _userRepository.InsertAsync(user);
+            await _unitOfWork.RefreshTokens.InsertAsync(refreshToken);
+            await _unitOfWork.SaveChangesAsync();
 
             return new (user, tokens);
         }

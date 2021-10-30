@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Votinger.Protos";
+
+import "Protos/Common/error.proto";
+
+message GrpcEmpty {
+	oneof result {
+		GrpcError error = 1;
+	}
+}

@@ -7,12 +7,11 @@ namespace Votinger.PollServer.Services.Polls
 {
     public interface IPollService
     {
-        Task CreatePollAsync(CreatePollModel model);
-        Task VoteInPollAsync(AnswerPollModel model);
-        Task CancelVoteInPollAsync(int pollId);
-        Task RemovePollAsync(Poll poll);
-        Task<Poll> GetPollByIdAsync(int pollId);
-        Task<List<PollAnswerOption>> GetAnswersAsync(int pollId);
-        Task IsAnsweredInPollAsync(int pollId);
+        Task<IEnumerable<Poll>> GetFew(int from, int to, bool includeAnswers = false);
+        Task<Poll> GetPollByIdAsync(int pollId, bool includeAnswers = false, bool includeRepliedUsers = false);
+        Task<Poll> CreatePollAsync(CreatePollModel model);
+        Task<bool> VoteInPollAsync(AnswerPollModel model);
+        Task<bool> CancelVoteInPollAsync(int userId, int pollId);
+        Task<bool> RemovePollAsync(Poll poll);
     }
 }

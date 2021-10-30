@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Votinger.AuthServer.Services.Users.Models;
+using Votinger.AuthServer.Infrastructure.Repository;
 
 namespace Votinger.AuthServer.Tests.Services.UserTests
 {
@@ -20,7 +21,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         //jwt.io ID: 1
         const string refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYXNkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzIzMzI0MzQsImlkIjoiMSIsImV4cCI6MTkzMjM1NDAzNCwiaXNzIjoiVGVzdElzc3VlciIsImF1ZCI6IlRlc3RBdWRpZW5jZSJ9.Ssq4AvXTtBXpQQ1UaNRWWWIhCst1LgUO0jA0EyWnAVI";
 
-        private IUserRepository _userRepository;
+        private IUnitOfWork _unitOfWork;
         private IRefreshTokenRepository _refreshTokenRepository;
         private IJwtService _jwtService;
         private User _testUser;
@@ -45,7 +46,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
             _testClaim = new ClaimsPrincipal(claimIdentity);
 
             var mockUserRepository = new Mock<IUserRepository>();
-            mockUserRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_testUser);
+            mockUserRepository.Setup(x => x.GetWithToken(It.IsAny<int>())).ReturnsAsync(_testUser);
 
             var mockRefreshTokenRepository = new Mock<IRefreshTokenRepository>();
             mockRefreshTokenRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_testUser.RefreshToken);
@@ -61,15 +62,18 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
             mockJwtService.Setup(x => x.GenerateTokens(It.IsAny<User>())).Returns(new TokensModel("newTestAccessToken", "newTestRefreshToken"));
             mockJwtService.Setup(x => x.Validate(It.IsAny<string>())).Returns(_testClaim);
 
-            _userRepository = mockUserRepository.Object;
-            _refreshTokenRepository = mockRefreshTokenRepository.Object;
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.Users).Returns(mockUserRepository.Object);
+            mockUnitOfWork.Setup(x => x.RefreshTokens).Returns(mockRefreshTokenRepository.Object);
+
+            _unitOfWork = mockUnitOfWork.Object;
             _jwtService = mockJwtService.Object;
         }
 
         [Fact]
         public async Task RefreshTokenAsync_User_Null()
         {
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var tokens = await userService.RefreshTokenAsync("notValidToken");
 
@@ -79,7 +83,7 @@ namespace Votinger.AuthServer.Tests.Services.UserTests
         [Fact]
         public async Task RefreshTokenAsync_User_Tokens()
         {
-            var userService = new UserService(_userRepository, _refreshTokenRepository, _jwtService);
+            var userService = new UserService(_unitOfWork, _jwtService);
 
             var tokens = await userService.RefreshTokenAsync(refreshToken);
 

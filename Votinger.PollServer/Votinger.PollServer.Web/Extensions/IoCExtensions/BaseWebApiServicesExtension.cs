@@ -6,6 +6,7 @@ namespace Votinger.PollServer.Web.Extensions.IoCExtensions
     {
         public static IServiceCollection AddBaseWebApiServices(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddGrpc();
 
             return services;

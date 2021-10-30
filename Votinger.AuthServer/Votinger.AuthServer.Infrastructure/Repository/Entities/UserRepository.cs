@@ -26,6 +26,11 @@ namespace Votinger.AuthServer.Infrastructure.Repository.Entities
             return await _table.FirstOrDefaultAsync(x => x.Login == login);
         }
 
+        public async Task<User> GetWithToken(int? id)
+        {
+            return await _table.Include(x => x.RefreshToken).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task InsertAsync(User user)
         {
             await _context.AddAsync(user);

@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Votinger.Protos";
+
+message GrpcError {
+  int32 status_code = 1;
+  string message = 2;
+}

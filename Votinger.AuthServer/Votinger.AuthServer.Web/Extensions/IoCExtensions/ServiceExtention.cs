@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Votinger.AuthServer.Infrastructure.Data;
 using Votinger.AuthServer.Infrastructure.Repository;
 using Votinger.AuthServer.Infrastructure.Repository.Entities;
 using Votinger.AuthServer.Infrastructure.Repository.Entities.Interfaces;
@@ -10,12 +11,12 @@ namespace Votinger.AuthServer.Web.Extensions.IoCExtensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddTransient<AuthServerDatabaseContext>();
+
             services.AddTransient<IUserService, UserService>();
 
             //Repositories
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserClaimRepository, UserClaimRepository>();
-            services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

@@ -2,21 +2,18 @@
 
 option csharp_namespace = "Votinger.Protos";
 
-service GrpcUser {
+import "Protos/Common/error.proto";
+
+service GrpcUserService {
   // Sends a greeting
   rpc SignIn (GrpcSignRequest) returns (GrpcSignReply);
   rpc SignUp (GrpcSignRequest) returns (GrpcSignReply);
   rpc RefreshToken (GrpcRefreshRequest) returns (GrpcSignReply);
 }
 
-message GrpcError {
-  int32 statusCode = 1;
-  string message = 2;
-}
-
 message GrpcTokensReply {
-  string accessToken = 1;
-  string refreshToken = 2;
+  string access_token = 1;
+  string refresh_token = 2;
 }
 
 message GrpcSignRequest {
@@ -32,5 +29,5 @@ message GrpcSignReply {
 }
 
 message GrpcRefreshRequest {
-  string refreshToken = 1;
+  string refresh_token = 1;
 }

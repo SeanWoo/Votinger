@@ -14,6 +14,7 @@ namespace Votinger.PollServer.Web.Extensions.IoCExtensions
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<TestService>();
+                endpoints.MapGrpcService<GrpcPollServiceImplementation>();
             });
 
             return app;
