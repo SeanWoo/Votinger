@@ -6,7 +6,7 @@
 			"script": "start",
 			"path": "src/",
 			"problemMatcher": [],
-			"label": "start",
+			"label": "start"
 		},
 		{
 			"type": "npm",
@@ -14,7 +14,7 @@
 			"path": "src/",
 			"group": "build",
 			"problemMatcher": [],
-			"label": "build",
+			"label": "build"
 		}
 	]
 }

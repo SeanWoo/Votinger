@@ -1,69 +1,58 @@
 const path = require('path');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const WebpackOnBuildPlugin = require('on-build-webpack');
-const fs = require('fs');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const buildDir = './wwwroot/dist/';
+const buildDir = './build/dist';
 
 module.exports = {
-    entry: './Content/expose-components.js',
+    entry: path.resolve(__dirname, './src/index.tsx'),
     output: {
         filename: '[name].[contenthash:8].js',
         globalObject: 'this',
-        path: path.resolve(__dirname, 'wwwroot/dist'),
-        publicPath: '/dist/'
-    },
-    optimization: {
-        runtimeChunk: {
-            name: 'runtime' // necessary when using multiple entrypoints on the same page
-        }
+        path: path.resolve(__dirname, buildDir),
+        publicPath: '/'
     },
     resolve: {
+        modules: ['node_modules'],
         extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     module: {
-        rules: [
+        rules: [{
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
-                test: /\.jsx?$/,
-                loader: 'babel-loader'
-            }
+                test: /\.s[ac]ss$/i,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            // Prefer `dart-sass`
+                            implementation: require("sass"),
+                        },
+                    },
+                ],
+            },
         ]
     },
     stats: {
         colors: true
     },
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, './src/public'),
+        },
+        compress: true,
+        port: 3000,
+        historyApiFallback: true,
+    },
     plugins: [
-        new WebpackManifestPlugin({
-            fileName: 'asset-manifest.json',
-            generate: (seed, files) => {
-                const manifestFiles = files.reduce((manifest, file) => {
-                    manifest[file.name] = file.path;
-                    return manifest;
-                }, seed);
-
-                const entrypointFiles = files.filter(x => x.isInitial && !x.name.endsWith('.map')).map(x => x.path);
-
-                return {
-                    files: manifestFiles,
-                    entrypoints: entrypointFiles
-                };
-            }
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, './src/public/index.html')
         }),
-        new WebpackOnBuildPlugin(function (stats) {
-            const newlyCreatedAssets = stats.compilation.assets;
-
-            const unlinked = [];
-            fs.readdir(path.resolve(buildDir), (err, files) => {
-                files.forEach(file => {
-                    if (!newlyCreatedAssets[file]) {
-                        fs.unlinkSync(path.resolve(buildDir + file));
-                        unlinked.push(file);
-                    }
-                });
-                if (unlinked.length > 0) {
-                    console.log('Removed old assets: ', unlinked);
-                }
-            });
-        })
+        new CleanWebpackPlugin()
     ]
 };

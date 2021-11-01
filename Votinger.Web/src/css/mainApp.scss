@@ -1,0 +1,103 @@
+//Ovveride boostrap gray colors
+$white: #fff !default;
+$gray-100: #f8f8f8 !default;
+$gray-200: #e9e9e9 !default;
+$gray-300: #dedede !default;
+$gray-400: #cecece !default;
+$gray-500: #adadad !default;
+$gray-600: #6c6c6c !default;
+$gray-700: #494949 !default;
+$gray-800: #343434 !default;
+$gray-900: #212121 !default;
+$black: #000 !default;
+
+//Ovveride boostrap theme colors
+$primary: #356BBD;
+$secondary: #4082E6;
+//$success : $green !default;
+$info: #478FFC !default;
+//$warning : $yellow !default;
+//$danger : $red !default;
+//$light : $gray-100 !default;
+//$dark : $gray-900 !default;
+
+//$theme-colors: (
+//  "custom-cc": #0f0
+//) !default;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+body {
+    background-color: $dark;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+.app {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.body {
+    color: #fff;
+    width: 100%;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.main {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main > * {
+    padding: 10px;
+}
+
+.sidebar {
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    top: 4rem;
+    width: 400px;
+    height: calc(100vh - 4rem);
+}
+
+$primary-color: #356BBD;
+.bg-primary-color {
+    background-color: #356BBD !important;
+}
+
+.bg-primary-dark-color {
+    background-color: #23477D !important;
+}
+
+.bg-primary-light-color {
+    background-color: #478FFC !important;
+}
+
+.bg-primary-very-dark-color {
+    background-color: #11233D !important;
+}
+
+.bg-second-color {
+    background-color: #4082E6 !important;
+}
+
+.bg-dark-color {
+    background-color: #2e3035 !important;
+}
+
+.font-primary-light-color {
+    color: #fff !important;
+}
+
+.font-second-light-color {
+    color: #aaa !important;
+}
