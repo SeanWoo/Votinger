@@ -13,10 +13,10 @@ const AuthController : IAuthController = {
             });
 
             if (response.status != 200) {
-                return response.data
+                return response.data as ApiError;
             }
     
-            return response.data;
+            return response.data as TokensModel;
         }
         catch (error)
         {
@@ -24,7 +24,7 @@ const AuthController : IAuthController = {
             return {
                 statusCode: 0,
                 message: 'Server is not responding'
-            }
+            } as ApiError
         }
     },
     signUp: async (model: SignUpModel): Promise<TokensModel | ApiError> => {
@@ -35,10 +35,10 @@ const AuthController : IAuthController = {
             });
 
             if (response.status != 200) {
-                return response.data
+                return response.data as ApiError;
             }
     
-            return response.data;
+            return response.data as TokensModel;
         }
         catch (error)
         {
@@ -46,7 +46,7 @@ const AuthController : IAuthController = {
             return {
                 statusCode: 0,
                 message: 'Server is not responding'
-            }
+            } as ApiError
         }
     },
     refreshToken: async (refreshToken: string): Promise<TokensModel | ApiError> => {

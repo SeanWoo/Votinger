@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { SignInModel, TokensModel } from '../../../core/models/AuthModels';
 import AuthController from '../../../core/api/AuthController';
 import { useState } from 'react';
-import ApiError from '../../../core/models/ApiError';
+import isApiError from '../../../core/utils/checker';
 
 const SignInPage: React.FC = () => {
     const [tokens, setTokens] = useState<TokensModel>()
@@ -14,10 +14,7 @@ const SignInPage: React.FC = () => {
 
         const form = event.target as typeof event.target & {
             login: { value: string },
-            password: { value: string },
-            a: any,
-            b: any,
-            c: any
+            password: { value: string }
         }
 
         const model : SignInModel = {
@@ -27,11 +24,17 @@ const SignInPage: React.FC = () => {
 
         (async () => {
             const response = await AuthController.signIn(model);
-            const token = (response as TokensModel)
-            const error = (response as ApiError)
-
-            console.log(token)
-            console.log(error)
+            
+            if (isApiError(response))
+            {
+                console.log(response)
+            }
+            else
+            {
+                localStorage.setItem("accessToken", response.accessToken);
+                localStorage.setItem("refreshToken", response.refreshToken);
+                setTokens(response)
+            }
         })();
     }
 
