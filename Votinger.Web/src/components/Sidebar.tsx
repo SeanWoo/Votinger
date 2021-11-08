@@ -8,8 +8,8 @@ import '../css/main.scss';
 const Sidebar: React.FC = () => {
     return (
         <Nav variant="pills" className="sidebar bg-dark">
-            <Nav.Link as={NavLink} to="/test1">Home</Nav.Link>
-            <Nav.Link as={NavLink} to="/test2">Link</Nav.Link>
+            <Nav.Link as={NavLink} exact to="/">Home</Nav.Link>
+            <Nav.Link as={NavLink} exact to="/polls">Polls</Nav.Link>
         </Nav>
     );
 }

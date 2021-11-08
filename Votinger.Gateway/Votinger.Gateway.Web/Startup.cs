@@ -43,7 +43,8 @@ namespace Votinger.Gateway.Web
                     .UseSwaggerMiddlewares();
             }
 
-            app.UseHttpsRedirection()
+            app.UseBaseWebApiServices()
+                .UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthorization()
                 .UseAuthentication()

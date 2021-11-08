@@ -1,24 +1,23 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
-import Home from './Pages/Home';
-import Test1 from './Pages/Test1';
-import Test2 from './Pages/Test2';
-
 import '../css/mainApp.scss';
+import PostPage from './Pages/Poll/PostPage';
+import HomePage from './Pages/Home/HomePage';
+import SignInPage from './Pages/SignIn/SignInPage';
 
 const Body: React.FC = () => {
     return (
         <div className="body">
             <Switch>
                 <Route exact path="/">
-                    <Home></Home>
+                    <HomePage></HomePage>
                 </Route>
-                <Route exact path="/test1">
-                    <Test1></Test1>
+                <Route exact path="/polls">
+                    <PostPage></PostPage>
                 </Route>
-                <Route exact path="/test2">
-                    <Test2></Test2>
+                <Route exact path="/signin">
+                    <SignInPage></SignInPage>
                 </Route>
             </Switch>
         </div>
