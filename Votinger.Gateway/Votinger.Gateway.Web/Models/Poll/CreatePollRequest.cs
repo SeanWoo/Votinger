@@ -8,6 +8,7 @@ namespace Votinger.Gateway.Web.Models.Poll
     public class CreatePollRequest
     {
         public string Title { get; set; }
+        public string Text { get; set; }
         public IEnumerable<string> AnswerOptions { get; set; }
     }
 }

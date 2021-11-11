@@ -28,6 +28,7 @@ namespace Votinger.PollServer.Web.GrpcServices
             _pollService = pollService;
             _mapper = mapper;
         }
+        [AllowAnonymous]
         public override async Task<GrpcRepeatedPollResponse> GetFew(GrpcGetFewRequest request, ServerCallContext context)
         {
             var polls = await _pollService.GetFew(request.From, request.To, request.IncludeAnswers);

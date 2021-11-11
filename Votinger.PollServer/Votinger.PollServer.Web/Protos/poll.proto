@@ -5,6 +5,8 @@ option csharp_namespace = "Votinger.Protos";
 import "Protos/Common/empty.proto";
 import "Protos/Common/error.proto";
 
+import "google/protobuf/wrappers.proto";
+
 service GrpcPollService {
   rpc GetFew (GrpcGetFewRequest) returns (GrpcRepeatedPollResponse);
   rpc GetPollById (GrpcGetPollByIdRequest) returns (GrpcPollResponse);
@@ -19,6 +21,7 @@ message GrpcPoll {
   int32 id = 1;
   int32 user_id = 2;
   string title = 3;
+  google.protobuf.StringValue text = 4;
 
   message GrpcPollAnswerOption {
     int32 id = 1;
@@ -35,7 +38,7 @@ message GrpcPoll {
       repeated GrpcPollRepliedUser replied_users = 5;
   }
 
-  repeated GrpcPollAnswerOption answer_options = 4;
+  repeated GrpcPollAnswerOption answer_options = 5;
 }
 
 //Requests
@@ -47,7 +50,8 @@ message GrpcGetPollByIdRequest {
 
 message GrpcCreatePollRequest {
   string title = 1;
-  repeated string answer_options = 2;
+  string text = 2;
+  repeated string answer_options = 3;
 }
 
 message GrpcRemovePollRequest {
