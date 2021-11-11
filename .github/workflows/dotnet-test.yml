@@ -1,0 +1,51 @@
+name: .NET-Test
+env:
+  AUTH_SERVER_PATH: "Votinger.AuthServer/Votinger.AuthServer.Web/Votinger.AuthServer.Web.csproj"
+  AUTH_SERVER_TEST_PATH: "Votinger.AuthServer/Votinger.AuthServer.Tests/Votinger.AuthServer.Tests.csproj"
+  POLL_SERVER_PATH: "Votinger.PollServer/Votinger.PollServer.Web/Votinger.PollServer.Web.csproj"
+  POLL_SERVER_TEST_PATH: "Votinger.PollServer/Votinger.PollServer.Tests/Votinger.PollServer.Tests.csproj"
+  
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  Test_Votinger-AuthServer:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1.8.2
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.AUTH_SERVER_PATH }}
+    - name: Restore test dependencies
+      run: dotnet restore ${{ env.AUTH_SERVER_TEST_PATH }}
+    - name: Build
+      run: dotnet build ${{ env.AUTH_SERVER_PATH }} --no-restore
+    - name: Test
+      run: dotnet test ${{ env.AUTH_SERVER_TEST_PATH }} --no-restore --verbosity normal
+      
+  Test_Votinger-PollServer:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1.8.2
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.POLL_SERVER_PATH }}
+    - name: Restore test dependencies
+      run: dotnet restore ${{ env.POLL_SERVER_TEST_PATH }}
+    - name: Build
+      run: dotnet build ${{ env.POLL_SERVER_PATH }} --no-restore
+    - name: Test
+      run: dotnet test ${{ env.POLL_SERVER_TEST_PATH }} --no-restore --verbosity normal
