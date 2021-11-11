@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Sidebar from './Sidebar';
 import Body from './Body'
 import Header from './Header'
-import { Col, Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import '../css/mainApp.scss';
-
 const App: React.FC = () => {
     return (
         <div>

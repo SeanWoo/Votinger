@@ -2,6 +2,8 @@ import axios, { AxiosInstance, AxiosRequestHeaders } from "axios";
 import authManager from '../models/authManager';
 import AuthController from '../api/AuthController';
 import isApiError from '../utils/checker';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store/auth/authActions';
 
 function registerAuthInterceptors(...axiosRequests: AxiosInstance[]) {
     var a = 1;
@@ -26,7 +28,8 @@ function registerAuthInterceptors(...axiosRequests: AxiosInstance[]) {
 
                             if (!isApiError(tokens))
                             {
-                                authManager.saveTokens(tokens);
+                                const dispatch = useDispatch()
+                                dispatch(authActions.updateTokens(tokens))
                             }
                         })();
                     }

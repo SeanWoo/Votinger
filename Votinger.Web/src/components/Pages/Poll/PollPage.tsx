@@ -1,15 +1,14 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
-import Post from './Poll';
-import AuthController from '../../../core/api/AuthController';
 import PollController from '../../../core/api/PollController';
-import { PollModel } from '../../../core/models/dto/PollModels';
+import { PollResponse } from '../../../core/models/dto/response/PollResponse';
 import Poll from './Poll';
+import CreatePoll from './CreatePoll';
 import isApiError from '../../../core/utils/checker';
+import { RootState } from '../../../store/reducers';
+import { connect, ConnectedProps } from 'react-redux';
 
-const PollPage: React.FC = () => {
-    const [polls, setPolls] = useState<PollModel[]>([]);
+const PollPage: React.FC<PollPageProps> = (props: PollPageProps) => {
+    const [polls, setPolls] = useState<PollResponse[]>([]);
     
     useEffect(() => {
         (async () => {
@@ -21,6 +20,9 @@ const PollPage: React.FC = () => {
 
     return (
         <div>
+            {props.isAuthorization && 
+                <CreatePoll/>
+            }
             {polls.length == 0 && 
                 <blockquote className="blockquote text-center">
                     Посты отсутствуют
@@ -33,4 +35,14 @@ const PollPage: React.FC = () => {
     );
 }
 
-export default PollPage;
+const mapStateToProps = (state : RootState) => {
+    return {
+        isAuthorization: state.auth.isAuthorized
+    }
+}
+
+const connector = connect(mapStateToProps);
+
+type PollPageProps = ConnectedProps<typeof connector>
+
+export default connector(PollPage);

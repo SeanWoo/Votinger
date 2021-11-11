@@ -1,11 +1,11 @@
-import ApiError from '../models/dto/ApiError';
 import { pollRequest } from '../request';
 import axios from 'axios';
 import IPollController from './interfaces/IPollController';
-import { PollModel } from '../models/dto/PollModels';
+import { PollResponse } from '../models/dto/response/PollResponse';
+import { ApiErrorResponse } from '../models/dto/response/ApiErrorResponse';
 
 const PollController : IPollController = {
-    getFew: async (from: number, to: number, includeAnswers: boolean = false): Promise<PollModel[] | ApiError> => {
+    getFew: async (from: number, to: number, includeAnswers: boolean = false): Promise<PollResponse[] | ApiErrorResponse> => {
         try {
             var response = await pollRequest("/GetFew", {
                 method: "GET",
@@ -17,10 +17,10 @@ const PollController : IPollController = {
             });
 
             if (response.status != 200) {
-                return response.data as ApiError;
+                return response.data as ApiErrorResponse;
             }
     
-            return response.data["polls"] as PollModel[];
+            return response.data["polls"] as PollResponse[];
         }
         catch (error)
         {
@@ -29,7 +29,7 @@ const PollController : IPollController = {
                 return {
                     statusCode: 0,
                     message: 'Server is not responding'
-                } as ApiError
+                } as ApiErrorResponse
             }
             else 
             {

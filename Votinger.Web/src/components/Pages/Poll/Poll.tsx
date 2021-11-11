@@ -1,9 +1,9 @@
 import React from 'react';
 import { ButtonGroup, Card, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { PollModel } from '../../../core/models/dto/PollModels';
+import { PollResponse } from '../../../core/models/dto/response/PollResponse';
 
 interface PollProps {
-    poll: PollModel
+    poll: PollResponse
 }
 
 const Poll: React.FC<PollProps> = (props: PollProps) => {

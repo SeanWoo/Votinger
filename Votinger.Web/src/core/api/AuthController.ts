@@ -1,11 +1,14 @@
-import ApiError from '../models/ApiError';
 import IAuthController from './interfaces/IAuthController';
-import { SignInModel, TokensModel, SignUpModel } from '../models/AuthModels';
 import { AUTH_SERVER_URL } from '../../config';
 import { authRequest } from '../request';
+import axios from 'axios';
+import { TokensResponse } from '../models/dto/TokensModel';
+import { SignInRequest } from '../models/dto/request/SignInRequest';
+import { SignUpRequest } from '../models/dto/request/SingUpRequest';
+import { ApiErrorResponse } from '../models/dto/response/ApiErrorResponse';
 
 const AuthController : IAuthController = {
-    signIn: async (model: SignInModel): Promise<TokensModel | ApiError> => {
+    signIn: async (model: SignInRequest): Promise<TokensResponse | ApiErrorResponse> => {
         try {
             var response = await authRequest("/SignIn", {
                 method: "POST",
@@ -13,21 +16,28 @@ const AuthController : IAuthController = {
             });
 
             if (response.status != 200) {
-                return response.data as ApiError;
+                return response.data as ApiErrorResponse;
             }
     
-            return response.data as TokensModel;
+            return response.data as TokensResponse;
         }
         catch (error)
         {
-            console.log("Unexcepted error: ", error)
-            return {
-                statusCode: 0,
-                message: 'Server is not responding'
-            } as ApiError
+            if (axios.isAxiosError(error))
+            {
+                return {
+                    statusCode: 0,
+                    message: 'Server is not responding'
+                } as ApiErrorResponse
+            }
+            else
+            {
+                console.log("Unexcepted error: ", error)
+                throw error;
+            }
         }
     },
-    signUp: async (model: SignUpModel): Promise<TokensModel | ApiError> => {
+    signUp: async (model: SignUpRequest): Promise<TokensResponse | ApiErrorResponse> => {
         try {
             var response = await authRequest("/SignUp", {
                 method: "POST",
@@ -35,21 +45,28 @@ const AuthController : IAuthController = {
             });
 
             if (response.status != 200) {
-                return response.data as ApiError;
+                return response.data as ApiErrorResponse;
             }
     
-            return response.data as TokensModel;
+            return response.data as TokensResponse;
         }
         catch (error)
         {
-            console.log("Unexcepted error: ", error)
-            return {
-                statusCode: 0,
-                message: 'Server is not responding'
-            } as ApiError
+            if (axios.isAxiosError(error))
+            {
+                return {
+                    statusCode: 0,
+                    message: 'Server is not responding'
+                } as ApiErrorResponse
+            }
+            else
+            {
+                console.log("Unexcepted error: ", error)
+                throw error;
+            }
         }
     },
-    refreshToken: async (refreshToken: string): Promise<TokensModel | ApiError> => {
+    refreshToken: async (refreshToken: string): Promise<TokensResponse | ApiErrorResponse> => {
         throw new Error('Function not implemented.');
     }
 }

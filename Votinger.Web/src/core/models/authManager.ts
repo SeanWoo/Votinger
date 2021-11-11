@@ -1,16 +1,25 @@
-import { TokensModel } from './dto/AuthModels';
 import * as buffer from 'buffer';
-import { JwtClaims } from './dto/JwtClaims';
+import { JwtClaimsModel } from './dto/JwtClaims';
+import { TokensResponse } from './dto/TokensModel';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store/auth/authActions';
 (window as any).Buffer = buffer.Buffer;
 
 const authManager = {
-
-    saveTokens: (tokens : TokensModel) : void => {
-        localStorage.setItem("accessToken", tokens.accessToken);   
-        localStorage.setItem("refreshToken", tokens.refreshToken);     
+    getTokens: () : TokensResponse => {
+        return { 
+            accessToken: localStorage.getItem("accessToken"),
+            refreshToken: localStorage.getItem("refreshToken")
+        }
+    },
+    saveTokens: (tokens : TokensResponse) : void => {
+        if (tokens.accessToken !== null && tokens.refreshToken !== null){
+            localStorage.setItem("accessToken", tokens.accessToken);   
+            localStorage.setItem("refreshToken", tokens.refreshToken);    
+        }
     },
 
-    getClaims : () : JwtClaims | null => {
+    getClaims : () : JwtClaimsModel | null => {
         const accessToken = localStorage.getItem("accessToken");   
 
         if (accessToken == null)
@@ -18,7 +27,7 @@ const authManager = {
     
         const accessTokenBodyObject = JSON.parse(Buffer.from(accessToken.split('.')[1], "base64").toString('utf-8'))
     
-        const jwtClaims : JwtClaims = {
+        const jwtClaims : JwtClaimsModel = {
             userId: accessTokenBodyObject.id,
             username: accessTokenBodyObject["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]
         }

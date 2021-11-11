@@ -1,4 +1,4 @@
-export type JwtClaims = {
+export type JwtClaimsModel = {
     userId: number,
     username: string
 }

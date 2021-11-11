@@ -1,8 +1,8 @@
-import ApiError from '../../models/dto/ApiError';
-import { PollModel } from '../../models/dto/PollModels';
+import { PollResponse } from '../../models/dto/response/PollResponse';
+import { ApiErrorResponse } from '../../models/dto/response/ApiErrorResponse';
 
 interface IPollController {
-    getFew(from: number, to: number, includeAnswers: boolean) : Promise<PollModel[] | ApiError>;
+    getFew(from: number, to: number, includeAnswers: boolean) : Promise<PollResponse[] | ApiErrorResponse>;
 }
 
 export default IPollController;

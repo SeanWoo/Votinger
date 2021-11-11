@@ -1,13 +1,14 @@
-import React, { HtmlHTMLAttributes } from 'react';
+import React from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { SignInModel, TokensModel } from '../../../core/models/AuthModels';
 import AuthController from '../../../core/api/AuthController';
-import { useState } from 'react';
 import isApiError from '../../../core/utils/checker';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { authActions } from '../../../store/auth/authActions';
+import { SignInRequest } from '../../../core/models/dto/request/SignInRequest';
+import { RootState } from '../../../store/reducers';
 
-const SignInPage: React.FC = () => {
-    const [tokens, setTokens] = useState<TokensModel>()
-
+const SignInPage: React.FC<SignInPageProps> = (props: SignInPageProps) => {
+    const dispatch = useDispatch();
 
     const submit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -17,7 +18,7 @@ const SignInPage: React.FC = () => {
             password: { value: string }
         }
 
-        const model : SignInModel = {
+        const model : SignInRequest = {
             login: form.login.value,
             password: form.password.value
         };
@@ -31,30 +32,44 @@ const SignInPage: React.FC = () => {
             }
             else
             {
-                localStorage.setItem("accessToken", response.accessToken);
-                localStorage.setItem("refreshToken", response.refreshToken);
-                setTokens(response)
+                dispatch(authActions.updateTokens(response))
             }
         })();
     }
 
     return (
         <div>
-            <Form onSubmit={submit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Введите логин: </Form.Label>
-                    <Form.Control name="login" placeholder='MyLogin'/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Введите пароль: </Form.Label>
-                    <Form.Control name="password" placeholder='password'/>
-                </Form.Group>
-                <Button type="submit">
-                    Войти
-                </Button>
-            </Form>
+            {props.isAuthorized ? 
+                <blockquote className="blockquote text-center">
+                    Вы уже зарегестрированы как 
+                </blockquote>
+            :
+                <Form onSubmit={submit}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Введите логин: </Form.Label>
+                        <Form.Control name="login" placeholder='MyLogin'/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Введите пароль: </Form.Label>
+                        <Form.Control name="password" placeholder='password'/>
+                    </Form.Group>
+                    <Button type="submit">
+                        Войти
+                    </Button>
+                </Form>
+            }
         </div>
     );
 }
 
-export default SignInPage;
+const mapStateToProps = (state : RootState) => {
+    return {
+        isAuthorized: state.auth.isAuthorized
+    }
+}
+
+const connector = connect(mapStateToProps)
+
+type SignInPageProps = ConnectedProps<typeof connector>
+
+export default connector(SignInPage);

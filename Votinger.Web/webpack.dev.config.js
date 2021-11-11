@@ -3,6 +3,6 @@
 module.exports = {
     ...baseConfig,
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     watch: true
 };

@@ -1,7 +1,7 @@
-import ApiError from '../models/ApiError';
+import { ApiErrorResponse } from '../models/dto/response/ApiErrorResponse';
 
-function isApiError(x: any): x is ApiError {
-    const error = x as ApiError;
+function isApiError(x: any): x is ApiErrorResponse {
+    const error = x as ApiErrorResponse;
     return error.statusCode !== undefined && error.message !== undefined
 }
 

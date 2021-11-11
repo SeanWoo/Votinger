@@ -2,9 +2,10 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import '../css/mainApp.scss';
-import PostPage from './Pages/Poll/PostPage';
+import PollPage from './Pages/Poll/PollPage';
 import HomePage from './Pages/Home/HomePage';
 import SignInPage from './Pages/SignIn/SignInPage';
+import SignUpPage from './Pages/SignUp/SignUpPage';
 
 const Body: React.FC = () => {
     return (
@@ -14,10 +15,13 @@ const Body: React.FC = () => {
                     <HomePage></HomePage>
                 </Route>
                 <Route exact path="/polls">
-                    <PostPage></PostPage>
+                    <PollPage></PollPage>
                 </Route>
                 <Route exact path="/signin">
                     <SignInPage></SignInPage>
+                </Route>
+                <Route exact path="/signup">
+                    <SignUpPage></SignUpPage>
                 </Route>
             </Switch>
         </div>

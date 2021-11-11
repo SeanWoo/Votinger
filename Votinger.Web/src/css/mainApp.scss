@@ -27,10 +27,15 @@ $info: #478FFC;
 
 //Body
 $body-bg: $gray-900;
+$body-secondary-bg: $gray-800; // my
 $body-color: $white;
 
 //Forms
 $input-border-color: $gray-700;
+
+//Card
+$card-bg: $body-secondary-bg;
+$card-color: $white;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 body {
@@ -60,7 +65,7 @@ html {
 
 .main {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 4rem);
 }
 
 .main > * {
@@ -74,4 +79,8 @@ html {
     top: 4rem;
     width: 400px;
     height: calc(100vh - 4rem);
+}
+
+.bg-secondary-dark {
+    background-color: $body-secondary-bg;
 }
