@@ -4,7 +4,7 @@
 </div>
 
 ## Description
-__Votinger__ is a web service for creating and conducting polls. In it, you can create polls on various topics and various topics, and users of the service can participate in your voting.
+__Votinger__ is a web service for creating and conducting polls. In it, you can create polls on various topics, and users of the service can participate in your voting.
 
 The web service puts your vote in an open feed where everyone can vote
 
