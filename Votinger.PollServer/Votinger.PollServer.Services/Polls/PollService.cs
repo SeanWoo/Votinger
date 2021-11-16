@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,34 @@ namespace Votinger.PollServer.Services.Polls
     public class PollService : IPollService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public PollService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public PollService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Poll>> GetFew(int from, int to, bool includeAnswers = false)
+        public async Task<IEnumerable<Poll>> GetFew(int from, int to, int? userId = null, bool includeAnswers = false)
         {
-            return await _unitOfWork.Polls.GetFew(from, to, includeAnswers);
+            var polls = await _unitOfWork.Polls.GetFew(from, to, includeAnswers);
+
+            if (userId is not null)
+            {
+                var answers = await _unitOfWork.PollRepliedUsers.GetAnswersByUserId(userId);
+
+                foreach (var poll in polls)
+                {
+                    foreach (var answer in poll.AnswerOptions)
+                    {
+                        answer.IsAnswered = answers.Any(x => x.PollAnswerOptionId == answer.Id);
+                    }
+                }
+
+                return polls;
+            }
+
+            return polls;
         }
 
         public async Task<Poll> GetPollByIdAsync(int pollId, bool includeAnswers = false, bool includeRepliedUsers = false)
@@ -95,7 +116,7 @@ namespace Votinger.PollServer.Services.Polls
             {
                 option.NumberOfReplies += 1;
             }
-
+            
             _unitOfWork.PollAnswerOptions.Update(pollAnswerOptions);
 
             var pollRepliedUsers = answerOptionIds.Select(x => new PollRepliedUser()

@@ -10,7 +10,7 @@ const Poll: React.FC<PollProps> = (props: PollProps) => {
     return (
         <Card className="mb-3">
             <Card.Header className="h5">
-                {props.poll.title}
+                {props.poll.id}: {props.poll.title}
             </Card.Header>
             <Card.Body>
                 {props.poll.text != null &&

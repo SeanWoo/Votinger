@@ -40,6 +40,8 @@ $card-color: $white;
 @import "../../node_modules/bootstrap/scss/bootstrap";
 body {
     background-color: $dark;
+    max-height: 100vh;
+    overflow: hidden;
 }
 
 html {
@@ -78,6 +80,12 @@ html {
     flex-direction: column;
     top: 4rem;
     width: 400px;
+    height: calc(100vh - 4rem);
+}
+
+.scrollable {
+    max-height: 100vh;
+    overflow: auto;
     height: calc(100vh - 4rem);
 }
 

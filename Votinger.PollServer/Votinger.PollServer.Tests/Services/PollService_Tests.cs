@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using Votinger.PollServer.Core.Entities;
 using Votinger.PollServer.Infrastructure.Data;
 using Votinger.PollServer.Infrastructure.Repository;
 using Votinger.PollServer.Infrastructure.Repository.Entities;
+using Votinger.PollServer.Services.Mapper;
 using Votinger.PollServer.Services.Polls;
 using Votinger.PollServer.Services.Polls.Model;
 using Xunit;
@@ -59,7 +61,10 @@ namespace Votinger.PollServer.Tests.Services
             _unitOfWork.Polls.InsertAsync(_testPoll);
             _unitOfWork.SaveChangesAsync();
 
-            _service = new PollService(_unitOfWork);
+            var mapperConf = new MapperConfiguration(x => x.AddProfile(new PollProfile()));
+            var mapper = new Mapper(mapperConf);
+
+            _service = new PollService(_unitOfWork, mapper);
         }
 
         [Fact]
@@ -106,6 +111,45 @@ namespace Votinger.PollServer.Tests.Services
 
             Assert.NotNull(poll);
             Assert.Empty(poll);
+        }
+        [Fact]
+        public async Task GetFewWithAuthorized_0_2_Polls()
+        {
+            await _unitOfWork.Polls.InsertAsync(new Poll() { Id = 2, Title = "test 2" });
+            await _unitOfWork.Polls.InsertAsync(
+                new Poll() { 
+                    Id = 3, 
+                    Title = "test 3", 
+                    AnswerOptions = new List<PollAnswerOption>()
+                    {
+                        new PollAnswerOption()
+                        {
+                            Id = 123,
+                            PollId = 3,
+                            RepliedUsers = new List<PollRepliedUser>()
+                            {
+                                new PollRepliedUser()
+                                {
+                                    Id = 1,
+                                    UserId = 1,
+                                    PollAnswerOptionId = 123
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            );
+            
+            await _unitOfWork.SaveChangesAsync();
+
+            var poll = await _service.GetFew(0, 2, userId: 1);
+
+
+            Assert.NotNull(poll);
+            Assert.False(poll.First().AnswerOptions.First().IsAnswered);
+            Assert.True(poll.Last().AnswerOptions.First().IsAnswered);
+            Assert.Equal(2, poll.Count());
         }
         [Fact]
         public async Task GetPollById_ThreePoll_PollById1()

@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Navbar, Container, Nav, Offcanvas } from "react-bootstrap";
 
 import '../css/mainApp.scss';
-import '../css/main.scss';
 
 const Sidebar: React.FC = () => {
     return (

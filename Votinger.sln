@@ -35,8 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votinger.Gateway.Web", "Vot
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DAD4A9FE-1BA8-48C7-ACD0-50587E87BDF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votinger.Gateway.React", "Votinger.Gateway\Votinger.Gateway.React\Votinger.Gateway.React.csproj", "{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,10 +89,6 @@ Global
 		{DAD4A9FE-1BA8-48C7-ACD0-50587E87BDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD4A9FE-1BA8-48C7-ACD0-50587E87BDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD4A9FE-1BA8-48C7-ACD0-50587E87BDF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,7 +105,6 @@ Global
 		{176C5629-50D5-4AF5-9B90-033301221317} = {B96E9A5D-2A95-4214-A1F7-81C736B19A75}
 		{A82B7B04-3A6E-41D6-8D88-8E54D48961E0} = {B96E9A5D-2A95-4214-A1F7-81C736B19A75}
 		{5CC2A098-A2A5-4964-962D-302B0D5C75D8} = {0321F7F1-5BBA-4B45-96F4-84958E08A702}
-		{AAB9E0A1-1921-4850-AAE2-1A3C58EAC727} = {0321F7F1-5BBA-4B45-96F4-84958E08A702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59426E29-D06A-4568-98AB-CE68A1C95833}

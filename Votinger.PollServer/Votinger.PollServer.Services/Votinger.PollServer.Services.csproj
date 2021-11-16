@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Votinger.PollServer.Core\Votinger.PollServer.Core.csproj" />
     <ProjectReference Include="..\Votinger.PollServer.Infrastructure\Votinger.PollServer.Infrastructure.csproj" />
   </ItemGroup>

@@ -17,6 +17,12 @@ namespace Votinger.PollServer.Infrastructure.Repository.Entities
         {
             _table = context.Set<PollRepliedUser>();
         }
+
+        public async Task<List<PollRepliedUser>> GetAnswersByUserId(int? userId)
+        {
+            return await _table.Where(x => x.UserId == userId).ToListAsync();
+        }
+
         public async Task InsertAsync(PollRepliedUser entity)
         {
             await _table.AddAsync(entity);

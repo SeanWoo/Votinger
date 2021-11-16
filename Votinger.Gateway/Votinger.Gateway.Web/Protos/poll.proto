@@ -27,7 +27,8 @@ message GrpcPoll {
     int32 id = 1;
     string text = 2;
     int32 number_of_replies = 3;
-    int32 poll_id = 4;
+    bool is_answered = 4;
+    int32 poll_id = 5;
 
       message GrpcPollRepliedUser {
         int32 id = 1;
@@ -35,7 +36,7 @@ message GrpcPoll {
         int32 userId = 3;
       }
 
-      repeated GrpcPollRepliedUser replied_users = 5;
+    repeated GrpcPollRepliedUser replied_users = 6;
   }
 
   repeated GrpcPollAnswerOption answer_options = 5;

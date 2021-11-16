@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Votinger.PollServer.Services\Votinger.PollServer.Services.csproj" />
+    <ProjectReference Include="..\Votinger.PollServer.Web\Votinger.PollServer.Web.csproj" />
   </ItemGroup>
 
 </Project>

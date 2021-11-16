@@ -9,6 +9,7 @@ namespace Votinger.PollServer.Infrastructure.Repository.Entities.Interfaces
 {
     public interface IPollRepliedUserRepository
     {
+        Task<List<PollRepliedUser>> GetAnswersByUserId(int? userId);
         Task InsertAsync(PollRepliedUser entity);
         Task InsertAsync(IEnumerable<PollRepliedUser> entity);
         void Remove(PollRepliedUser entity);

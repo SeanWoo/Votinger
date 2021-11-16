@@ -7,7 +7,7 @@ namespace Votinger.PollServer.Services.Polls
 {
     public interface IPollService
     {
-        Task<IEnumerable<Poll>> GetFew(int from, int to, bool includeAnswers = false);
+        Task<IEnumerable<Poll>> GetFew(int from, int to, int? userId = null, bool includeAnswers = false);
         Task<Poll> GetPollByIdAsync(int pollId, bool includeAnswers = false, bool includeRepliedUsers = false);
         Task<Poll> CreatePollAsync(CreatePollModel model);
         Task<bool> VoteInPollAsync(AnswerPollModel model);
